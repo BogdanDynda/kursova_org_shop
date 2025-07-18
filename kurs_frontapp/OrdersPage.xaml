@@ -1,0 +1,41 @@
+﻿<Page x:Class="kurs_frontapp.OrdersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Замовлення">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5">
+            <DatePicker x:Name="FromDatePicker" Margin="5" Width="120"
+                       SelectedDateChanged="DateFilterChanged"/>
+            <DatePicker x:Name="ToDatePicker" Margin="5" Width="120"
+                       SelectedDateChanged="DateFilterChanged"/>
+            <ComboBox x:Name="EmployeeFilter" Width="180" Margin="5"
+                     DisplayMemberPath="last_name" SelectedValuePath="employee_id"
+                     SelectionChanged="FilterChanged"/>
+			<Button Content="Очистити фільтри" Margin="5" Click="ClearFilters_Click"/>
+        </StackPanel>
+
+        <DataGrid x:Name="OrdersGrid" Grid.Row="1" Margin="5" 
+                 AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер" Binding="{Binding order_id}" Width="Auto"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding order_datetime, StringFormat='dd.MM.yyyy HH:mm'}" Width="120"/>
+                <DataGridTextColumn Header="Працівник" Binding="{Binding Employee.last_name}" Width="150"/>
+                <DataGridTextColumn Header="Кількість товарів" Width="100">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="Order_Items.Count"/>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Сума" Width="100">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="Order_Items" Converter="{StaticResource OrderTotalConverter}"/>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

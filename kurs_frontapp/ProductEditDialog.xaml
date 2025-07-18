@@ -1,0 +1,52 @@
+﻿<Window x:Class="kurs_frontapp.ProductEditDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редагування товару" Height="500" Width="400"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="Назва:"/>
+        <TextBox Grid.Row="1" x:Name="NameBox" Text="{Binding name_}" Margin="0,0,0,5"/>
+
+        <Label Grid.Row="2" Content="Опис:"/>
+        <TextBox Grid.Row="3" x:Name="DescriptionBox" Text="{Binding description_}" 
+                 AcceptsReturn="True" Height="60" VerticalScrollBarVisibility="Auto" Margin="0,0,0,5"/>
+
+        <Label Grid.Row="4" Content="Ціна (₴):"/>
+        <TextBox Grid.Row="5" x:Name="PriceBox" Text="{Binding Price, StringFormat=N2}" Margin="0,0,0,5"/>
+
+        <Label Grid.Row="6" Content="Кількість на складі:"/>
+        <TextBox Grid.Row="7" x:Name="StockBox" Text="{Binding stock_quantity}" Margin="0,0,0,5"/>
+
+        <Label Grid.Row="8" Content="Виробник:"/>
+        <ComboBox Grid.Row="9" x:Name="ManufacturerCombo" 
+          DisplayMemberPath="name_" SelectedValuePath="manufacturer_id"
+          SelectedValue="{Binding manufacturer_id}" Margin="0,0,0,5"/>
+        
+        <Label Grid.Row="10" Content="Знижка:"/>
+        <ComboBox Grid.Row="11" x:Name="DiscountCombo" 
+                  DisplayMemberPath="discount_code" SelectedValuePath="discount_id"
+                  SelectedValue="{Binding discount_id}" Margin="0,0,0,10"/>
+
+        <StackPanel Grid.Row="13" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="OK" Width="80" Margin="5" IsDefault="True" Click="OK_Click"/>
+            <Button Content="Скасувати" Width="80" Margin="5" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>

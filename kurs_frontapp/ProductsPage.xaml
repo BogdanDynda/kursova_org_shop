@@ -1,0 +1,41 @@
+﻿<Page x:Class="kurs_frontapp.ProductsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Товари">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5">
+            <TextBox x:Name="SearchBox" Width="200" Margin="5" 
+                     TextChanged="SearchBox_TextChanged"/>
+            <Button Content="Пошук" Margin="5" Click="SearchButton_Click"/>
+            <ComboBox x:Name="ManufacturerFilter" Width="150" Margin="5"
+                      DisplayMemberPath="name_" SelectedValuePath="manufacturer_id" SelectionChanged="FilterChanged"/>
+            <Button Content="Очистити фільтри" Margin="5" Click="ClearFilters_Click"/>
+        </StackPanel>
+
+        <DataGrid x:Name="ProductsGrid" Grid.Row="1" Margin="5" 
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  SelectionChanged="ProductsGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding product_id}" Width="Auto"/>
+                <DataGridTextColumn Header="Назва" Binding="{Binding name_}" Width="*"/>
+                <DataGridTextColumn Header="Виробник" Binding="{Binding Manufacturer.name_, StringFormat={}{0}}" Width="150"/>
+                <DataGridTextColumn Header="Ціна" Binding="{Binding price, StringFormat={}{0}₴}" Width="100"/>
+                <DataGridTextColumn Header="На складі" Binding="{Binding stock_quantity, StringFormat={}{0}}" Width="80"/>
+                <DataGridTextColumn Header="Знижка" Binding="{Binding discount.percentage,StringFormat='{}{0}%'}" Width="80"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button Content="Додати" Width="80" Margin="5" Click="AddProduct_Click"/>
+            <Button Content="Редагувати" Width="80" Margin="5" Click="EditProduct_Click"/>
+            <Button Content="Видалити" Width="80" Margin="5" Click="DeleteProduct_Click"/>
+            <Button Content="Оновити" Width="80" Margin="5" Click="Refresh_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

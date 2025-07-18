@@ -1,0 +1,9 @@
+﻿<Application x:Class="kurs_frontapp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:kurs_frontapp"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <local:OrderTotalConverter x:Key="OrderTotalConverter"/>
+    </Application.Resources>
+</Application>
