@@ -1,0 +1,115 @@
+﻿<Window x:Class="kurz_shop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:kurz_shop"
+        mc:Ignorable="d"
+        Title="Магазин оргтехніки" Height="700" Width="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!-- Фільтри -->
+        <Border Grid.Row="0" Background="#FFEEE8AA" Padding="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="SearchTextBox" Width="200" Margin="5" 
+                         TextChanged="SearchTextBox_TextChanged" 
+                         ToolTip="Пошук за назвою"/>
+
+                <ComboBox x:Name="ManufacturerComboBox" Width="180" Margin="5"
+                          DisplayMemberPath="name_" SelectedValuePath="Manufacturer_id"
+                          SelectionChanged="FilterChanged"
+                          ToolTip="Фільтр по виробнику"/>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Ціна від:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="PriceFromTextBox" Width="60" Margin="5 0"
+                             TextChanged="FilterChanged"/>
+                    <TextBlock Text="до:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="PriceToTextBox" Width="60" Margin="5 0"
+                             TextChanged="FilterChanged"/>
+                </StackPanel>
+
+                <CheckBox x:Name="InStockCheckBox" Content="Тільки в наявності" 
+                          Margin="5" VerticalAlignment="Center"
+                          Checked="FilterChanged" Unchecked="FilterChanged"/>
+                <Button Content="Очистити фільтри" Margin="5" Click="ClearFilters_Click"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Основна частина -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Каталог товарів -->
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="ProductsItemsControl" Margin="10">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Gray" BorderThickness="1" Margin="10" 
+                                    Width="220" Height="300">
+                                <StackPanel>
+                                    <Image Source="/Images/default_product.png" Height="120" 
+                                           Stretch="Uniform" Margin="5"/>
+                                    <TextBlock Text="{Binding name_}" FontWeight="Bold" 
+                                               Margin="5" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding Manufacturer.name_}" 
+                                               Margin="5 0"/>
+                                    <StackPanel Orientation="Horizontal" Margin="5 0">
+                                        <TextBlock Text="{Binding Price, StringFormat={}{0:C}}"/>
+                                        <TextBlock Text="{Binding discount.percentage, StringFormat=' (знижка {0}%)', TargetNullValue=''}" Foreground="Red" Margin="5 0 0 0"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding stock_quantity, StringFormat='На складі: {0}'}" Margin="5 0"/>
+                                    <TextBlock Text="{Binding price, StringFormat='Ціна: {0} ₴'}" Margin="5 0"/>
+                                    <Button Content="В кошик" Margin="5" 
+                                            CommandParameter="{Binding}"
+                                            Click="AddToCart_Click"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!-- Кошик -->
+            <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="Кошик" FontSize="16" FontWeight="Bold" 
+                               HorizontalAlignment="Center" Margin="10"/>
+
+                    <ListView x:Name="CartListView" Height="300">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding name_}" Width="120" 
+                                               TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{Binding Price, StringFormat={}{0:C}}" 
+                                               Width="80"/>
+                                    <Button Content="✕" Margin="5 0" Padding="5 0"
+                                            CommandParameter="{Binding}"
+                                            Click="RemoveFromCart_Click"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <TextBlock x:Name="TotalTextBlock" FontWeight="Bold" Margin="10"
+                               HorizontalAlignment="Right"/>
+                    <Button Content="Оформити замовлення" Margin="10" Padding="10"
+                            Click="CheckoutButton_Click" FontWeight="Bold"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
